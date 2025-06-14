@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "654360082922",
+    "project_id": "mkr-mart",
+    "storage_bucket": "mkr-mart.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654360082922:android:22d4bcbbcc7aab5011da93",
+        "android_client_info": {
+          "package_name": "com.example.mkr_mart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADDqyLWvAewWS013vUpiFU4p2EDCZ1zMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
