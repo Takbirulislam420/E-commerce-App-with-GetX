@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
 import 'package:mkr_mart/features/auth/ui/widgets/app_logo.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,6 +12,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _moveToNextScreen();
+  }
+
+  Future<void> _moveToNextScreen() async {
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.pushReplacementNamed(context, LoginScreen.name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
