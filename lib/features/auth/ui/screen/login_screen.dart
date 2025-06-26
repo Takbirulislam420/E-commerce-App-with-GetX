@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:mkr_mart/features/auth/ui/screen/sign_up_screen.dart';
 import 'package:mkr_mart/features/auth/ui/widgets/app_logo.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -54,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _passwordController,
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: "Enter your password",
                     ),
@@ -79,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onTapLoginButton() {
+    Navigator.pushNamed(context, SignUpScreen.name);
     if (_formKey.currentState!.validate()) {}
   }
 }

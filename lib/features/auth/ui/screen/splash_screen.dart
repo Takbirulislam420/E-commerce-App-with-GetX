@@ -14,13 +14,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _moveToNextScreen();
   }
 
   Future<void> _moveToNextScreen() async {
     await Future.delayed(Duration(seconds: 2));
+    // ignore: use_build_context_synchronously
     Navigator.pushReplacementNamed(context, LoginScreen.name);
   }
 
