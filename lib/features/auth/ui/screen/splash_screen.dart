@@ -15,10 +15,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _moveToNextScreen();
+    _moveToHomeScreen();
   }
 
-  Future<void> _moveToNextScreen() async {
+  Future<void> _moveToHomeScreen() async {
     await Future.delayed(Duration(seconds: 2));
     // ignore: use_build_context_synchronously
     Navigator.pushReplacementNamed(context, LoginScreen.name);

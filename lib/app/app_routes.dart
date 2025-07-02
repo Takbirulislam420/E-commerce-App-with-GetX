@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
 import 'package:mkr_mart/features/auth/ui/screen/sign_up_screen.dart';
 import 'package:mkr_mart/features/auth/ui/screen/splash_screen.dart';
+import 'package:mkr_mart/features/home/ui/screen/home_screen.dart';
 
 class AppRoutes {
   static Route<dynamic> routes(RouteSettings settings) {
@@ -12,6 +13,8 @@ class AppRoutes {
       screenWidget = LoginScreen();
     } else if (settings.name == SignUpScreen.name) {
       screenWidget = SignUpScreen();
+    } else if (settings.name == HomeScreen.name) {
+      screenWidget = HomeScreen();
     }
     return MaterialPageRoute(builder: (context) => screenWidget);
   }

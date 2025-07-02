@@ -31,6 +31,16 @@ class AppThemes {
         fontWeight: FontWeight.w600,
         letterSpacing: .4,
       ),
+      titleMedium: TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.w600,
+        letterSpacing: .4,
+      ),
+      titleSmall: TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.w600,
+        letterSpacing: .4,
+      ),
       headlineMedium: TextStyle(color: Colors.grey, fontSize: 16),
     );
   }
