@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:mkr_mart/features/auth/ui/widgets/app_logo.dart';
-import 'package:mkr_mart/features/home/ui/screen/home_screen.dart';
+import 'package:mkr_mart/features/common/ui/screen/main_bottom_nav_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -161,7 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onTapSignUpButton() {
-    Navigator.pushNamed(context, HomeScreen.name);
+    Navigator.pushNamed(context, MainBottomNavScreen.name);
     //if (_formKey.currentState!.validate()) {}
   }
 

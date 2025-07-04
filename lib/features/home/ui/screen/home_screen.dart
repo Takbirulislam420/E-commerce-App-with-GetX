@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:mkr_mart/app/app_assets_path.dart';
 import 'package:mkr_mart/app/app_colors.dart';
+import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
 import 'package:mkr_mart/features/home/ui/widgets/app_bar_button.dart';
 import 'package:mkr_mart/features/home/ui/widgets/home_carousel_slider.dart';
+import 'package:mkr_mart/features/common/ui/widgets/product_category_item.dart';
 import 'package:mkr_mart/features/home/ui/widgets/product_search_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,7 +32,15 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 8),
               HomeCarouselSlider(),
               SizedBox(height: 2),
-              _buildSectionHeader(title: "Category", onTapSeeAll: () {}),
+              _buildSectionHeader(
+                title: "Category",
+                onTapSeeAll: () {
+                  Get.find<MainBottomNavController>().moveToCategory();
+                },
+              ),
+              SizedBox(height: 3),
+              _getCategoryList(),
+              SizedBox(height: 3),
               _buildSectionHeader(title: "Popular", onTapSeeAll: () {}),
               _buildSectionHeader(title: "Special", onTapSeeAll: () {}),
               _buildSectionHeader(title: "New", onTapSeeAll: () {}),
@@ -69,6 +80,22 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(width: 3),
         AppBarButton(onTap: () {}, icons: Icons.notifications),
       ],
+    );
+  }
+
+  Widget _getCategoryList() {
+    return SizedBox(
+      height: 120,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: 10,
+        // primary: false,
+        // shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return ProductCategoryItem();
+        },
+        separatorBuilder: (context, index) => const SizedBox(width: 5),
+      ),
     );
   }
 }

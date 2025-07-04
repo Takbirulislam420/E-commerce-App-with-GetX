@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
 import 'package:mkr_mart/features/auth/ui/widgets/app_logo.dart';
+import 'package:mkr_mart/features/common/ui/screen/main_bottom_nav_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,9 +19,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _moveToHomeScreen() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 5));
     // ignore: use_build_context_synchronously
-    Navigator.pushReplacementNamed(context, LoginScreen.name);
+    Navigator.pushReplacementNamed(context, MainBottomNavScreen.name);
   }
 
   @override
