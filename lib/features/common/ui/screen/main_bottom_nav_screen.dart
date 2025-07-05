@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
 import 'package:mkr_mart/features/home/ui/screen/home_screen.dart';
 import 'package:mkr_mart/features/products/ui/screen/product_category_screen.dart';
+import 'package:mkr_mart/features/wish_list/ui/screen/wish_list_screen.dart';
 
 class MainBottomNavScreen extends StatefulWidget {
   const MainBottomNavScreen({super.key});
@@ -18,7 +19,7 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
     HomeScreen(),
     ProductCategoryScreen(),
     HomeScreen(),
-    HomeScreen(),
+    WishListScreen(),
   ];
   @override
   Widget build(BuildContext context) {
