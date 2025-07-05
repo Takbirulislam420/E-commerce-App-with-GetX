@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mkr_mart/app/app_assets_path.dart';
 import 'package:mkr_mart/app/app_colors.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
+import 'package:mkr_mart/features/common/ui/widgets/product_card.dart';
 import 'package:mkr_mart/features/home/ui/widgets/app_bar_button.dart';
 import 'package:mkr_mart/features/home/ui/widgets/home_carousel_slider.dart';
 import 'package:mkr_mart/features/common/ui/widgets/product_category_item.dart';
@@ -27,23 +28,22 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              SizedBox(height: 8),
               ProductSearchBar(),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               HomeCarouselSlider(),
-              SizedBox(height: 2),
               _buildSectionHeader(
                 title: "Category",
                 onTapSeeAll: () {
                   Get.find<MainBottomNavController>().moveToCategory();
                 },
               ),
-              SizedBox(height: 3),
               _getCategoryList(),
-              SizedBox(height: 3),
               _buildSectionHeader(title: "Popular", onTapSeeAll: () {}),
+              _getPopularProduct(),
               _buildSectionHeader(title: "Special", onTapSeeAll: () {}),
+              _getSpecialProducts(),
               _buildSectionHeader(title: "New", onTapSeeAll: () {}),
+              _getNewProduct(),
             ],
           ),
         ),
@@ -95,6 +95,44 @@ class _HomeScreenState extends State<HomeScreen> {
           return ProductCategoryItem();
         },
         separatorBuilder: (context, index) => const SizedBox(width: 5),
+      ),
+    );
+  }
+
+  Widget _getPopularProduct() {
+    //return ProductCard();
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        spacing: 8,
+        children: [1, 2, 3, 4, 5].map((e) => ProductCard()).toList(),
+      ),
+    );
+  }
+
+  Widget _getSpecialProducts() {
+    return SizedBox(
+      height: 190,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return ProductCard();
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(width: 8);
+        },
+      ),
+    );
+  }
+
+  Widget _getNewProduct() {
+    //return ProductCard();
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        spacing: 8,
+        children: [1, 2, 3, 4, 5].map((e) => ProductCard()).toList(),
       ),
     );
   }

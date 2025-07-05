@@ -29,6 +29,7 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
           bottomNavigationBar: NavigationBar(
             selectedIndex: navController.selectedIndex,
             onDestinationSelected: navController.changeIndex,
+
             destinations: [
               NavigationDestination(icon: Icon(Icons.home), label: "Home"),
               NavigationDestination(
