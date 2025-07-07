@@ -24,6 +24,7 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
+              // ignore: deprecated_member_use
               color: AppColors.themeColors.withOpacity(0.1),
               offset: Offset(0.0, 0.10),
               blurRadius: 5,
@@ -36,6 +37,7 @@ class ProductCard extends StatelessWidget {
             Container(
               width: 140,
               decoration: BoxDecoration(
+                // ignore: deprecated_member_use
                 color: AppColors.themeColors.withOpacity(0.2),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16),

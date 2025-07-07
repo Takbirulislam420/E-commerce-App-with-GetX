@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mkr_mart/features/cart/ui/screen/cart_screen.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
 import 'package:mkr_mart/features/home/ui/screen/home_screen.dart';
 import 'package:mkr_mart/features/products/ui/screen/product_category_screen.dart';
@@ -18,7 +19,7 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   final List<Widget> _screen = [
     HomeScreen(),
     ProductCategoryScreen(),
-    HomeScreen(),
+    CartScreen(),
     WishListScreen(),
   ];
   @override
