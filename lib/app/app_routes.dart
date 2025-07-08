@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
 import 'package:mkr_mart/features/auth/ui/screen/sign_up_screen.dart';
 import 'package:mkr_mart/features/auth/ui/screen/splash_screen.dart';
+import 'package:mkr_mart/features/auth/ui/screen/verify_otp_screen.dart';
 import 'package:mkr_mart/features/common/ui/screen/main_bottom_nav_screen.dart';
 import 'package:mkr_mart/features/home/ui/screen/home_screen.dart';
 import 'package:mkr_mart/features/products/ui/screen/product_category_screen.dart';
@@ -32,6 +33,9 @@ class AppRoutes {
     } else if (settings.name == ProductDetailsScreen.name) {
       final String productId = settings.arguments as String;
       screenWidget = ProductDetailsScreen(productId: productId);
+    } else if (settings.name == VerifyOtpScreen.name) {
+      final String email = settings.arguments as String;
+      screenWidget = VerifyOtpScreen(email: email);
     }
     return MaterialPageRoute(builder: (context) => screenWidget);
   }

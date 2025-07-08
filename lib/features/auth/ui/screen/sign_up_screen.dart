@@ -1,7 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mkr_mart/features/auth/data/model/sign_up_request_model.dart';
+import 'package:mkr_mart/features/auth/ui/controller/sign_up_controller.dart';
+import 'package:mkr_mart/features/auth/ui/screen/verify_otp_screen.dart';
 import 'package:mkr_mart/features/auth/ui/widgets/app_logo.dart';
-import 'package:mkr_mart/features/common/ui/screen/main_bottom_nav_screen.dart';
+import 'package:mkr_mart/features/common/ui/widgets/center_circular_progress_indicator.dart';
+import 'package:mkr_mart/features/common/ui/widgets/show_snack_bar_message.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -21,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final SignUpController _signUpController = Get.find<SignUpController>();
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -91,11 +97,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      hintText: "Enter your Last name",
+                      hintText: "Enter your mobile number",
                     ),
                     validator: (String? value) {
                       if (value?.trim().isEmpty ?? true) {
-                        return "Enter a valid last name";
+                        return "Enter a valid mobile number";
                       }
                       return null;
                     },
@@ -147,9 +153,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _onTapSignUpButton,
-                    child: Text("Sign up"),
+                  GetBuilder<SignUpController>(
+                    builder: (_) {
+                      return Visibility(
+                        visible: _signUpController.inProgress == false,
+                        replacement: CenterCircularProgressIndicator(),
+                        child: ElevatedButton(
+                          onPressed: _onTapSignUpButton,
+                          child: Text("Sign up"),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -160,9 +174,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onTapSignUpButton() {
-    Navigator.pushNamed(context, MainBottomNavScreen.name);
-    //if (_formKey.currentState!.validate()) {}
+  Future<void> _onTapSignUpButton() async {
+    if (_formKey.currentState!.validate()) {
+      final SignUpRequestModel model = SignUpRequestModel(
+        firstName: _firstNameController.text.trim(),
+        lastName: _lastNameController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+        phone: _mobileController.text.trim(),
+        city: _cityNameController.text.trim(),
+      );
+      final bool isSuccess = await _signUpController.signUp(model);
+      if (isSuccess) {
+        // ignore: use_build_context_synchronously
+        ShowSnackBarMessage(context, _signUpController.message);
+        Navigator.pushNamed(
+          // ignore: use_build_context_synchronously
+          context,
+          VerifyOtpScreen.name,
+          arguments: _emailController.text.trim(),
+        );
+      } else {
+        // ignore: use_build_context_synchronously
+        ShowSnackBarMessage(context, _signUpController.errorMessage!, true);
+      }
+    }
   }
 
   @override
@@ -174,7 +210,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _mobileController.dispose();
     _addressController.dispose();
     _passwordController.dispose();
-
     super.dispose();
   }
 }

@@ -21,24 +21,31 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorized();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: "Un-Authorized",
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -48,7 +55,7 @@ class NetworkClient {
   }) async {
     try {
       Uri uri = Uri.parse(url);
-      _logRequest(url, header: commonHeaders); // Log request
+      _logRequest(url, header: commonHeaders, body: body); // Log request
       final Response response = await post(
         uri,
         headers: commonHeaders,
@@ -58,24 +65,31 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorized();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: "Un-Authorized",
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -95,24 +109,31 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorized();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: "Un-Authorized",
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -132,24 +153,31 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorized();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: "Un-Authorized",
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -169,24 +197,31 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorized();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: "Un-Authorized",
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
