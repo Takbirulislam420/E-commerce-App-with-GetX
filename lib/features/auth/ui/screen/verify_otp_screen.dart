@@ -20,6 +20,7 @@ class VerifyOtpScreen extends StatefulWidget {
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   final TextEditingController _otpController = TextEditingController();
+  String? otp;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
@@ -89,18 +90,23 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   }
 
   Future<void> _onTapVerifyButton() async {
+    otp = _otpController.text.trim();
     if (_formKey.currentState!.validate()) {
       VerifyOtpRequestModel model = VerifyOtpRequestModel(
         email: widget.email,
-        otp: _otpController.text.trim(),
+        otp: otp!,
       );
       final bool isSuccess = await Get.find<VerifyOtpController>().verifyOtp(
         model,
       );
+
       if (isSuccess) {
-        // Navigate to another page
-        // ignore: use_build_context_synchronously
-        Navigator.pushNamed(context, MainBottomNavScreen.name);
+        Navigator.pushNamedAndRemoveUntil(
+          // ignore: use_build_context_synchronously
+          context,
+          MainBottomNavScreen.name,
+          (predicate) => false,
+        );
         ShowSnackBarMessage(
           // ignore: use_build_context_synchronously
           context,
@@ -117,10 +123,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     }
   }
 
-  @override
-  void dispose() {
-    _otpController.dispose();
+  // @override
+  // void dispose() {
+  //   _otpController.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 }

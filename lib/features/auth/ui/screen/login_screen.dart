@@ -1,7 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:mkr_mart/features/auth/ui/screen/sign_up_screen.dart';
+import 'package:get/get.dart';
+import 'package:mkr_mart/features/auth/data/model/log_in_request_model.dart';
+import 'package:mkr_mart/features/auth/ui/controller/login_controller.dart';
 import 'package:mkr_mart/features/auth/ui/widgets/app_logo.dart';
+import 'package:mkr_mart/features/common/ui/screen/main_bottom_nav_screen.dart';
+import 'package:mkr_mart/features/common/ui/widgets/center_circular_progress_indicator.dart';
+import 'package:mkr_mart/features/common/ui/widgets/show_snack_bar_message.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final LoginController _loginController = Get.find<LoginController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -60,16 +66,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: "Enter your password",
                     ),
                     validator: (String? value) {
-                      if ((value?.length ?? 0) <= 6) {
+                      if ((value?.length ?? 0) <= 4) {
                         return "Enter your password more then 6 or 6 letter";
                       }
                       return null;
                     },
                   ),
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onTapLoginButton,
-                    child: Text("Log in"),
+                  GetBuilder<LoginController>(
+                    builder: (controller) {
+                      return Visibility(
+                        visible: controller.inProgress == false,
+                        replacement: CenterCircularProgressIndicator(),
+                        child: ElevatedButton(
+                          onPressed: _onTapLoginButton,
+                          child: Text("Log in"),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -80,9 +94,31 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _onTapLoginButton() {
-    Navigator.pushNamed(context, SignUpScreen.name);
-    //if (_formKey.currentState!.validate()) {}
+  Future<void> _onTapLoginButton() async {
+    //Navigator.pushNamed(context, SignUpScreen.name);
+    if (_formKey.currentState!.validate()) {
+      LogInRequestModel model = LogInRequestModel(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+
+      final bool isSuccess = await _loginController.logIn(model);
+      if (isSuccess) {
+        Navigator.pushNamedAndRemoveUntil(
+          // ignore: use_build_context_synchronously
+          context,
+          MainBottomNavScreen.name,
+          (predicate) => false,
+        );
+      } else {
+        ShowSnackBarMessage(
+          // ignore: use_build_context_synchronously
+          context,
+          _loginController.errorMessage!,
+          true,
+        );
+      }
+    }
   }
 
   @override

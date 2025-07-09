@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:mkr_mart/app/app_assets_path.dart';
 import 'package:mkr_mart/app/app_colors.dart';
+import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
+import 'package:mkr_mart/features/common/controller/auth_controller.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
 import 'package:mkr_mart/features/common/ui/widgets/product_card.dart';
 import 'package:mkr_mart/features/home/ui/widgets/app_bar_button.dart';
@@ -19,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final AuthController _authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +77,21 @@ class _HomeScreenState extends State<HomeScreen> {
     return AppBar(
       title: SvgPicture.asset(AppAssetsPath.navLogoPath),
       actions: [
-        AppBarButton(onTap: () {}, icons: Icons.person),
+        AppBarButton(
+          onTap: () async {
+            await _authController.clearUserData();
+
+            if (_authController.accessToken == null) {
+              Navigator.pushNamedAndRemoveUntil(
+                // ignore: use_build_context_synchronously
+                context,
+                LoginScreen.name,
+                (predicate) => false,
+              );
+            }
+          },
+          icons: Icons.person,
+        ),
         SizedBox(width: 3),
         AppBarButton(onTap: () {}, icons: Icons.call),
         SizedBox(width: 3),
