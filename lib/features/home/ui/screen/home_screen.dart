@@ -14,6 +14,7 @@ import 'package:mkr_mart/features/home/ui/widgets/app_bar_button.dart';
 import 'package:mkr_mart/features/home/ui/widgets/home_carousel_slider.dart';
 import 'package:mkr_mart/features/common/ui/widgets/product_category_item.dart';
 import 'package:mkr_mart/features/home/ui/widgets/product_search_bar.dart';
+import 'package:mkr_mart/features/products/controller/popular_product_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -140,12 +141,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _getPopularProduct() {
     //return ProductCard();
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        spacing: 8,
-        //children: [1, 2, 3, 4, 5].map((e) => ProductCard()).toList(),
-      ),
+    return GetBuilder<PopularProductController>(
+      builder: (popularController) {
+        return Visibility(
+          visible: popularController.inProgress == false,
+          replacement: CenterCircularProgressIndicator(),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              spacing: 8,
+              children: popularController.popularProductList
+                  .map((product) => ProductCard(productModel: product))
+                  .toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 

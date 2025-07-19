@@ -8,6 +8,7 @@ import 'package:mkr_mart/features/common/controller/auth_controller.dart';
 import 'package:mkr_mart/features/common/controller/category_list_controller.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
 import 'package:mkr_mart/features/home/ui/controller/home_slider_controller.dart';
+import 'package:mkr_mart/features/products/controller/popular_product_controller.dart';
 
 class ControllerBinder extends Bindings {
   @override
@@ -25,6 +26,7 @@ class ControllerBinder extends Bindings {
     Get.put(LoginController()); //HomeSliderController
     Get.put(HomeSliderController());
     Get.put(CategoryListController());
+    Get.put(PopularProductController());
   }
 
   void _onUnAuthorized() {
