@@ -5,7 +5,9 @@ import 'package:mkr_mart/features/auth/ui/controller/sign_up_controller.dart';
 import 'package:mkr_mart/features/auth/ui/controller/verify_otp_controller.dart';
 import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
 import 'package:mkr_mart/features/common/controller/auth_controller.dart';
+import 'package:mkr_mart/features/common/controller/category_list_controller.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
+import 'package:mkr_mart/features/home/ui/controller/home_slider_controller.dart';
 
 class ControllerBinder extends Bindings {
   @override
@@ -20,8 +22,9 @@ class ControllerBinder extends Bindings {
     );
     Get.put(SignUpController());
     Get.put(VerifyOtpController());
-
-    Get.put(LoginController());
+    Get.put(LoginController()); //HomeSliderController
+    Get.put(HomeSliderController());
+    Get.put(CategoryListController());
   }
 
   void _onUnAuthorized() {

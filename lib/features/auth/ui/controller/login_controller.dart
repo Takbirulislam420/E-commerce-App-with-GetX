@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mkr_mart/core/api_urls.dart';
+import 'package:mkr_mart/core/service/api_url/api_urls.dart';
 import 'package:mkr_mart/core/service/network/network_client.dart';
 import 'package:mkr_mart/features/auth/data/model/log_in_request_model.dart';
 import 'package:mkr_mart/features/common/controller/auth_controller.dart';

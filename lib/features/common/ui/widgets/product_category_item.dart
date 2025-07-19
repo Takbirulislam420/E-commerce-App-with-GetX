@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mkr_mart/app/app_colors.dart';
+import 'package:mkr_mart/features/common/user_data_model/category_model.dart';
 import 'package:mkr_mart/features/products/ui/screen/product_list_screen.dart';
 
 class ProductCategoryItem extends StatelessWidget {
-  const ProductCategoryItem({super.key});
+  const ProductCategoryItem({super.key, required this.categoryModel});
+  final CategoryModel categoryModel;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class ProductCategoryItem extends StatelessWidget {
           Navigator.pushNamed(
             context,
             ProductListScreen.name,
-            arguments: "Computer",
+            arguments: categoryModel,
           );
         },
         child: Column(
@@ -28,15 +30,22 @@ class ProductCategoryItem extends StatelessWidget {
                 color: AppColors.themeColors.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                Icons.computer,
-                color: AppColors.themeColors,
-                size: 32,
+              child: Image.network(
+                categoryModel.iconUrl,
+                height: 32,
+                width: 32,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(
+                    Icons.computer,
+                    color: AppColors.themeColors,
+                    size: 32,
+                  );
+                },
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              "Computer",
+              _getTitle(categoryModel.title),
               style: Theme.of(
                 context,
               ).textTheme.bodyLarge?.copyWith(color: AppColors.themeColors),
@@ -45,5 +54,12 @@ class ProductCategoryItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getTitle(String title) {
+    if (title.length > 10) {
+      return '${title.substring(0, 9)}..';
+    }
+    return title;
   }
 }

@@ -1,27 +1,33 @@
 import 'package:get/get.dart';
 import 'package:mkr_mart/core/service/api_url/api_urls.dart';
 import 'package:mkr_mart/core/service/network/network_client.dart';
-import 'package:mkr_mart/features/auth/data/model/sign_up_request_model.dart';
+import 'package:mkr_mart/features/home/data/model/slider_model.dart';
 
-class SignUpController extends GetxController {
+class HomeSliderController extends GetxController {
   //Loading state
   bool _inProgress = false;
-  //Error state
+  List<SliderModel> _sliderList = [];
   String? _errorMessage;
-  late String _message;
 
   bool get inProgress => _inProgress;
   String? get errorMessage => _errorMessage;
-  String get message => _message;
+  List<SliderModel> get sliderList => _sliderList;
+
   //Data model expose
-  Future<bool> signUp(SignUpRequestModel model) async {
+  Future<bool> callSliderApi() async {
     bool isSuccess = false;
     _inProgress = true;
     update();
-    final NetworkResponse response = await Get.find<NetworkClient>()
-        .postRequest(ApiUrls.signUpUrl, body: model.toJson());
+    final NetworkResponse response = await Get.find<NetworkClient>().getRequest(
+      ApiUrls.loadSliderUrl,
+    );
     if (response.isSuccess) {
-      _message = response.responseData!['msg'];
+      List<SliderModel> list = [];
+      for (Map<String, dynamic> loopSlider
+          in response.responseData!['data']['results']) {
+        list.add(SliderModel.fromJson(loopSlider));
+      }
+      _sliderList = list;
       _errorMessage = null;
       isSuccess = true;
     } else {

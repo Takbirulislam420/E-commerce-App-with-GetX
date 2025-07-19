@@ -4,6 +4,7 @@ import 'package:mkr_mart/features/auth/ui/screen/sign_up_screen.dart';
 import 'package:mkr_mart/features/auth/ui/screen/splash_screen.dart';
 import 'package:mkr_mart/features/auth/ui/screen/verify_otp_screen.dart';
 import 'package:mkr_mart/features/common/ui/screen/main_bottom_nav_screen.dart';
+import 'package:mkr_mart/features/common/user_data_model/category_model.dart';
 import 'package:mkr_mart/features/home/ui/screen/home_screen.dart';
 import 'package:mkr_mart/features/products/ui/screen/product_category_screen.dart';
 import 'package:mkr_mart/features/products/ui/screen/product_details_screen.dart';
@@ -26,8 +27,8 @@ class AppRoutes {
     } else if (settings.name == MainBottomNavScreen.name) {
       screenWidget = MainBottomNavScreen();
     } else if (settings.name == ProductListScreen.name) {
-      final String category = settings.arguments as String;
-      screenWidget = ProductListScreen(category: category);
+      final CategoryModel categoryModel = settings.arguments as CategoryModel;
+      screenWidget = ProductListScreen(categoryModel: categoryModel);
     } else if (settings.name == WishListScreen.name) {
       screenWidget = WishListScreen();
     } else if (settings.name == ProductDetailsScreen.name) {

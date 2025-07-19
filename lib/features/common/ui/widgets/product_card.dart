@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mkr_mart/app/app_assets_path.dart';
 import 'package:mkr_mart/app/app_colors.dart';
+import 'package:mkr_mart/features/products/model/product_model.dart';
 import 'package:mkr_mart/features/products/ui/screen/product_details_screen.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  const ProductCard({super.key, required this.productModel});
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class ProductCard extends StatelessWidget {
         Navigator.pushNamed(
           context,
           ProductDetailsScreen.name,
-          arguments: '123',
+          arguments: productModel.id,
         );
       },
       child: Container(
@@ -44,19 +46,34 @@ class ProductCard extends StatelessWidget {
                   topRight: Radius.circular(16),
                 ),
               ),
-              padding: EdgeInsets.all(16),
-              child: Image.asset(
-                AppAssetsPath.dummyImage,
-                height: 80,
-                width: 80,
-              ),
+              padding: EdgeInsets.all(5),
+              child:
+                  (productModel.photoUrl!.isNotEmpty &&
+                      productModel.photoUrl!.first.isNotEmpty)
+                  ? Image.network(
+                      productModel.photoUrl!.first,
+                      height: 80,
+                      width: 80,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          AppAssetsPath.dummyImage,
+                          height: 80,
+                          width: 80,
+                        );
+                      },
+                    )
+                  : Image.asset(
+                      AppAssetsPath.dummyImage,
+                      height: 80,
+                      width: 80,
+                    ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   Text(
-                    "Nike ER3451 - new model of 2025",
+                    productModel.title,
                     maxLines: 1,
                     style: TextStyle(
                       color: Colors.black54,
@@ -68,7 +85,7 @@ class ProductCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '\$100 ',
+                        productModel.currentPrice,
                         style: TextStyle(
                           fontSize: 12,
                           color: AppColors.themeColors,

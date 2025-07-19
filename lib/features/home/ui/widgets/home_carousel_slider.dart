@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mkr_mart/app/app_colors.dart';
+import 'package:mkr_mart/features/home/data/model/slider_model.dart';
 
+// ignore: must_be_immutable
 class HomeCarouselSlider extends StatefulWidget {
-  const HomeCarouselSlider({super.key});
+  HomeCarouselSlider({required this.slider, super.key});
+  List<SliderModel> slider;
 
   @override
   State<HomeCarouselSlider> createState() => _HomeCarouselSliderState();
@@ -25,7 +28,7 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
               _valueNotifier.value = currentIndex;
             },
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: widget.slider.map((slider) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
@@ -34,9 +37,13 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
                   decoration: BoxDecoration(
                     color: AppColors.themeColors,
                     borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      image: NetworkImage(slider.photoImage),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   alignment: Alignment.center,
-                  child: Text('text $i', style: TextStyle(fontSize: 16.0)),
+                  child: Text('text $slider', style: TextStyle(fontSize: 16.0)),
                 );
               },
             );
@@ -49,7 +56,7 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < i; i++)
                   Container(
                     width: 12,
                     height: 12,

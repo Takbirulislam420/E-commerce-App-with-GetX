@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mkr_mart/features/cart/ui/screen/cart_screen.dart';
+import 'package:mkr_mart/features/common/controller/category_list_controller.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
+import 'package:mkr_mart/features/home/ui/controller/home_slider_controller.dart';
 import 'package:mkr_mart/features/home/ui/screen/home_screen.dart';
 import 'package:mkr_mart/features/products/ui/screen/product_category_screen.dart';
 import 'package:mkr_mart/features/wish_list/ui/screen/wish_list_screen.dart';
@@ -16,6 +18,13 @@ class MainBottomNavScreen extends StatefulWidget {
 }
 
 class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
+  @override
+  void initState() {
+    Get.find<HomeSliderController>().callSliderApi();
+    Get.find<CategoryListController>().getCategoryList();
+    super.initState();
+  }
+
   final List<Widget> _screen = [
     HomeScreen(),
     ProductCategoryScreen(),

@@ -27,14 +27,16 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 5));
     // ignore: use_build_context_synchronously
     _authController.getUserData();
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacementNamed(context, MainBottomNavScreen.name);
 
-    if (_authController.accessToken != null) {
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, MainBottomNavScreen.name);
-    } else {
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, LoginScreen.name);
-    }
+    // if (_authController.accessToken != null) {
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.pushReplacementNamed(context, MainBottomNavScreen.name);
+    // } else {
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.pushReplacementNamed(context, LoginScreen.name);
+    // }
   }
 
   @override

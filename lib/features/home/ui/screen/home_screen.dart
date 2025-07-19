@@ -5,8 +5,11 @@ import 'package:mkr_mart/app/app_assets_path.dart';
 import 'package:mkr_mart/app/app_colors.dart';
 import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
 import 'package:mkr_mart/features/common/controller/auth_controller.dart';
+import 'package:mkr_mart/features/common/controller/category_list_controller.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
+import 'package:mkr_mart/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:mkr_mart/features/common/ui/widgets/product_card.dart';
+import 'package:mkr_mart/features/home/ui/controller/home_slider_controller.dart';
 import 'package:mkr_mart/features/home/ui/widgets/app_bar_button.dart';
 import 'package:mkr_mart/features/home/ui/widgets/home_carousel_slider.dart';
 import 'package:mkr_mart/features/common/ui/widgets/product_category_item.dart';
@@ -22,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final AuthController _authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +37,19 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               ProductSearchBar(),
               const SizedBox(height: 8),
-              HomeCarouselSlider(),
+              GetBuilder<HomeSliderController>(
+                builder: (sliderController) {
+                  if (sliderController.inProgress) {
+                    return SizedBox(
+                      height: 200,
+                      child: CenterCircularProgressIndicator(),
+                    );
+                  }
+                  return HomeCarouselSlider(
+                    slider: sliderController.sliderList,
+                  );
+                },
+              ),
               _buildSectionHeader(
                 title: "Category",
                 onTapSeeAll: () {
@@ -103,15 +119,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _getCategoryList() {
     return SizedBox(
       height: 120,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: 10,
-        // primary: false,
-        // shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return ProductCategoryItem();
+      child: GetBuilder<CategoryListController>(
+        builder: (categoryController) {
+          return ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: categoryController.homeCategoryListLength,
+            // primary: false,
+            // shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return ProductCategoryItem(
+                categoryModel: categoryController.categoryList[index],
+              );
+            },
+            separatorBuilder: (context, index) => const SizedBox(width: 5),
+          );
         },
-        separatorBuilder: (context, index) => const SizedBox(width: 5),
       ),
     );
   }
@@ -122,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
       scrollDirection: Axis.horizontal,
       child: Row(
         spacing: 8,
-        children: [1, 2, 3, 4, 5].map((e) => ProductCard()).toList(),
+        //children: [1, 2, 3, 4, 5].map((e) => ProductCard()).toList(),
       ),
     );
   }
@@ -134,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
         scrollDirection: Axis.horizontal,
         itemCount: 10,
         itemBuilder: (context, index) {
-          return ProductCard();
+          //return ProductCard();
         },
         separatorBuilder: (context, index) {
           return SizedBox(width: 8);
@@ -149,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
       scrollDirection: Axis.horizontal,
       child: Row(
         spacing: 8,
-        children: [1, 2, 3, 4, 5].map((e) => ProductCard()).toList(),
+        //children: [1, 2, 3, 4, 5].map((e) => ProductCard()).toList(),
       ),
     );
   }
