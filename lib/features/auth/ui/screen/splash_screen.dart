@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
 import 'package:mkr_mart/features/auth/ui/widgets/app_logo.dart';
 import 'package:mkr_mart/features/common/controller/auth_controller.dart';
 import 'package:mkr_mart/features/common/ui/screen/main_bottom_nav_screen.dart';

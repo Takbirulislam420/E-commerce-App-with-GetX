@@ -1,29 +1,22 @@
 import 'package:get/get.dart';
 import 'package:mkr_mart/core/service/api_url/api_urls.dart';
 import 'package:mkr_mart/core/service/network/network_client.dart';
-import 'package:mkr_mart/features/products/model/product_details_model.dart';
 
-class ProductDetailsController extends GetxController {
+class AddToCartController extends GetxController {
   //Loading state
   bool _inProgress = false;
-  late ProductDetailsModel _productDetails;
   String? _errorMessage;
 
   bool get inProgress => _inProgress;
   String? get errorMessage => _errorMessage;
-  ProductDetailsModel get productDetails => _productDetails;
 
-  Future<bool> getProductDetails(String productId) async {
+  Future<bool> addToCartRequest(String productId) async {
     bool isSuccess = false;
     _inProgress = true;
     update();
-    final NetworkResponse response = await Get.find<NetworkClient>().getRequest(
-      ApiUrls.productDetailsByIdUrl(productId),
-    );
+    final NetworkResponse response = await Get.find<NetworkClient>()
+        .postRequest(ApiUrls.addToCartUrl, body: {"product": productId});
     if (response.isSuccess) {
-      _productDetails = ProductDetailsModel.fromJson(
-        response.responseData!['data'],
-      );
       isSuccess = true;
       _errorMessage = null;
     } else {

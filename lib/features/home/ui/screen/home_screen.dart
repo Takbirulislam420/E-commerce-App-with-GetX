@@ -40,6 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 8),
               GetBuilder<HomeSliderController>(
                 builder: (sliderController) {
+                  // Future.delayed(Duration.zero, () {
+                  //   sliderController.update(); // ✅ বিল্ড শেষে কল হবে
+                  // });
                   if (sliderController.inProgress) {
                     return SizedBox(
                       height: 200,

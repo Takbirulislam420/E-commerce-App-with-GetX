@@ -165,6 +165,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       );
                     },
                   ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Already have account?"),
+                      TextButton(
+                        onPressed: _onTapSignInButton,
+                        child: Text("Sign In"),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -172,6 +183,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  void _onTapSignInButton() {
+    Navigator.pop(context);
   }
 
   Future<void> _onTapSignUpButton() async {

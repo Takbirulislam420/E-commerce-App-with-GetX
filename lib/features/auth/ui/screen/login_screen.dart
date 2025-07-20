@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mkr_mart/features/auth/data/model/log_in_request_model.dart';
 import 'package:mkr_mart/features/auth/ui/controller/login_controller.dart';
+import 'package:mkr_mart/features/auth/ui/screen/sign_up_screen.dart';
 import 'package:mkr_mart/features/auth/ui/widgets/app_logo.dart';
 import 'package:mkr_mart/features/common/ui/screen/main_bottom_nav_screen.dart';
 import 'package:mkr_mart/features/common/ui/widgets/center_circular_progress_indicator.dart';
@@ -85,6 +86,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     },
                   ),
+
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Don't have any account?"),
+                      TextButton(
+                        onPressed: _onTapSignUpButton,
+                        child: Text("Sign up"),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -92,6 +105,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void _onTapSignUpButton() {
+    Navigator.pushNamed(context, SignUpScreen.name);
   }
 
   Future<void> _onTapLoginButton() async {

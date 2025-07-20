@@ -12,4 +12,7 @@ class ApiUrls {
     String categoryId,
   ) => "$_baseUrl/products?count=$count&page=$currentPage&category=$categoryId";
   static String productByTagUrl(String tag) => "$_baseUrl/products?tag=$tag";
+  static String productDetailsByIdUrl(String productId) =>
+      "$_baseUrl/products/id/$productId";
+  static String addToCartUrl = "$_baseUrl/cart";
 }

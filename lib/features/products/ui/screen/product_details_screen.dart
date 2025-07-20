@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mkr_mart/app/app_colors.dart';
+import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
+import 'package:mkr_mart/features/common/controller/auth_controller.dart';
+import 'package:mkr_mart/features/common/function/show_snack_bar_message.dart';
+import 'package:mkr_mart/features/common/ui/widgets/center_circular_progress_indicator.dart';
+import 'package:mkr_mart/features/products/controller/add_to_cart_controller.dart';
+import 'package:mkr_mart/features/products/controller/product_details_controller.dart';
+import 'package:mkr_mart/features/products/model/product_details_model.dart';
 import 'package:mkr_mart/features/products/ui/widgets/product_color_picker.dart';
 import 'package:mkr_mart/features/products/ui/widgets/increment_decrement_button.dart';
 import 'package:mkr_mart/features/products/ui/widgets/product_carousel_slider.dart';
@@ -16,148 +24,173 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  final ProductDetailsController _productDetailsController =
+      ProductDetailsController();
+  final AddToCartController _addToCartController =
+      Get.find<AddToCartController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _productDetailsController.getProductDetails(widget.productId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Product Details")),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ProductCarouselSlider(),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Row(
-                        //   children: [
-                        //     Expanded(
-                        //       child: Text(
-                        //         "Nike New shows,come from new Nike New shows,come from new  New shows,come from new",
-                        //         maxLines: 2,
-                        //         style: TextStyle(
-                        //           fontSize: 17,
-                        //           fontWeight: FontWeight.w700,
-                        //           letterSpacing: 0.6,
-                        //           color: Colors.black54,
-                        //           overflow: TextOverflow.ellipsis,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     IncrementDecrementButton(onChange: (int value) {}),
-                        //   ],
-                        // ),
-                        Text(
-                          "Nike New shows,come from new Nike  world the country New shows,come from new",
-                          maxLines: 4,
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.6,
-                            color: Colors.black54,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Row(
-                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: GetBuilder(
+        init: _productDetailsController,
+        builder: (controller) {
+          if (controller.inProgress) {
+            return CenterCircularProgressIndicator();
+          }
+          if (controller.errorMessage != null) {
+            return Text("Something wrong");
+          }
+          final ProductDetailsModel product = controller.productDetails;
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ProductCarouselSlider(images: product.photoUrl!),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Text(
-                            //   '\$100 ',
-                            //   style: TextStyle(
-                            //     fontSize: 12,
-                            //     color: AppColors.themeColors,
-                            //     fontWeight: FontWeight.w600,
-                            //   ),
-                            // ),
-                            Wrap(
-                              children: [
-                                Icon(Icons.star, size: 18, color: Colors.amber),
-                                Text(
-                                  "1.4",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Review",
-                                style: TextStyle(color: AppColors.themeColors),
-                              ),
-                            ),
-                            Card(
-                              color: AppColors.themeColors,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadiusGeometry.circular(4),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(4),
-                                child: Icon(
-                                  Icons.favorite_border,
-                                  size: 18,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            IncrementDecrementButton(onChange: (int value) {}),
+                            titleSection(product),
+                            reViewRowSection(),
+                            colorNSizeSection(product),
+                            descriptionSection(product),
                           ],
                         ),
-                        Text(
-                          "Color",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        ProductColorPicker(
-                          colorsList: ["Grey", "Green", "Red"],
-                          onSelectedColor: (String value) {},
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          "Size",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        ProductSizePicker(
-                          sizeList: ["S", "M", "L", "XL", "XXL"],
-                          onSelectedSize: (String value) {},
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          "Description",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          '''The official Mac mini M4 16GB/256GB is now available in Bangladesh at a starting price of ৳70,900. For the best price, official warranty, and delivery across the country, shop directly at Gadget BD.The official Mac mini M4 16GB/256GB is now available in Bangladesh at a starting price of ৳70,900. For the best price, official warranty, and delivery across the country, shop directly at Gadget BD.''',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-          _buildAddToCartSection(),
-        ],
+              _buildAddToCartSection(product),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildAddToCartSection() {
+  Widget descriptionSection(ProductDetailsModel product) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Description",
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        ),
+        SizedBox(height: 8),
+        Text(product.description, style: TextStyle(color: Colors.grey)),
+      ],
+    );
+  }
+
+  Widget titleSection(ProductDetailsModel product) {
+    return Text(
+      product.title,
+      maxLines: 4,
+      style: TextStyle(
+        fontSize: 17,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.6,
+        color: Colors.black54,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  Widget reViewRowSection() {
+    return Row(
+      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // Text(
+        //   '\$100 ',
+        //   style: TextStyle(
+        //     fontSize: 12,
+        //     color: AppColors.themeColors,
+        //     fontWeight: FontWeight.w600,
+        //   ),
+        // ),
+        Wrap(
+          children: [
+            Icon(Icons.star, size: 18, color: Colors.amber),
+            Text("1.4", style: TextStyle(color: Colors.grey)),
+          ],
+        ),
+        TextButton(
+          onPressed: () {},
+          child: Text("Review", style: TextStyle(color: AppColors.themeColors)),
+        ),
+        Card(
+          color: AppColors.themeColors,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(4),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(4),
+            child: Icon(Icons.favorite_border, size: 18, color: Colors.white),
+          ),
+        ),
+        Spacer(),
+        IncrementDecrementButton(onChange: (int value) {}),
+      ],
+    );
+  }
+
+  Widget colorNSizeSection(ProductDetailsModel product) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Visibility(
+          visible: product.colors!.isNotEmpty,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Color",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 5),
+              ProductColorPicker(
+                colorsList: product.colors!,
+                onSelectedColor: (String value) {},
+              ),
+              SizedBox(height: 12),
+            ],
+          ),
+        ),
+        Visibility(
+          visible: product.sizes!.isNotEmpty,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Size",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 5),
+              ProductSizePicker(
+                sizeList: product.sizes!,
+                onSelectedSize: (String value) {},
+              ),
+              SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAddToCartSection(ProductDetailsModel product) {
     return Container(
       padding: EdgeInsets.all(16),
       height: 85,
@@ -177,7 +210,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             children: [
               Text("Price", style: Theme.of(context).textTheme.bodyLarge),
               Text(
-                "\$1000",
+                "\$${product.currentPrice}",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -188,10 +221,37 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           SizedBox(
             width: 120,
-            child: ElevatedButton(onPressed: () {}, child: Text("Add to cart")),
+            child: GetBuilder(
+              init: _addToCartController,
+              builder: (addController) {
+                return Visibility(
+                  visible: addController.inProgress == false,
+                  replacement: CenterCircularProgressIndicator(),
+                  child: ElevatedButton(
+                    onPressed: _onTapAddToCart,
+                    child: Text("Add to cart"),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _onTapAddToCart() async {
+    if (await Get.find<AuthController>().isUserLoggedIn()) {
+      final bool result = await _addToCartController.addToCartRequest(
+        widget.productId,
+      );
+      if (result) {
+        // ignore: use_build_context_synchronously
+        showSnackBarMessage(context, "Added to cart");
+      }
+    } else {
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamed(context, LoginScreen.name);
+    }
   }
 }

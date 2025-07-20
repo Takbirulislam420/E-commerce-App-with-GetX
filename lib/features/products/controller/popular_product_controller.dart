@@ -4,7 +4,7 @@ import 'package:mkr_mart/core/service/network/network_client.dart';
 import 'package:mkr_mart/features/products/model/product_model.dart';
 
 class PopularProductController extends GetxController {
-  final int _count = 30;
+  //final int _count = 30;
   int _currentPage = 0;
   int? _lastPage = null;
   //Loading state

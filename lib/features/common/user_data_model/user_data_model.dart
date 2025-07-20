@@ -38,7 +38,18 @@ class UserDataModel {
     );
   }
 
-  Map<String, String> toJson() {
-    return {};
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'email_verified': emailVerified,
+      'phone': phone,
+      'phone_verified': phoneVerified,
+      'avatar_url': avatarUrl,
+      'city': city,
+      'role': role,
+    };
   }
 }

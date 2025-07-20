@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:mkr_mart/app/app_colors.dart';
 
 class ProductCarouselSlider extends StatefulWidget {
-  const ProductCarouselSlider({super.key});
+  const ProductCarouselSlider({super.key, required this.images});
+  final List<String> images;
 
   @override
   State<ProductCarouselSlider> createState() => _ProductCarouselSliderState();
@@ -25,15 +26,17 @@ class _ProductCarouselSliderState extends State<ProductCarouselSlider> {
               _valueNotifier.value = currentIndex;
             },
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: widget.images.map((singleImage) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.symmetric(horizontal: 2.0),
-                  decoration: BoxDecoration(color: Colors.grey),
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    image: DecorationImage(image: NetworkImage(singleImage)),
+                  ),
                   alignment: Alignment.center,
-                  child: Text('text $i', style: TextStyle(fontSize: 16.0)),
                 );
               },
             );
@@ -51,7 +54,7 @@ class _ProductCarouselSliderState extends State<ProductCarouselSlider> {
                 spacing: 0.2,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < 5; i++)
+                  for (int i = 0; i < widget.images.length; i++)
                     Container(
                       width: 12,
                       height: 12,
