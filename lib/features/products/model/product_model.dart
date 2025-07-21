@@ -1,7 +1,7 @@
 class ProductModel {
   final String id;
   final String title;
-  final String currentPrice;
+  final int currentPrice;
   final List<String>? photoUrl;
 
   ProductModel({
@@ -15,7 +15,7 @@ class ProductModel {
     return ProductModel(
       id: jsonData['_id'],
       title: jsonData['title'],
-      currentPrice: (jsonData['current_price']).toString(),
+      currentPrice: jsonData['current_price'],
       photoUrl: List<String>.from(jsonData['photos']),
     );
   }

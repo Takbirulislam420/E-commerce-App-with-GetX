@@ -4,6 +4,7 @@ import 'package:mkr_mart/features/auth/ui/controller/login_controller.dart';
 import 'package:mkr_mart/features/auth/ui/controller/sign_up_controller.dart';
 import 'package:mkr_mart/features/auth/ui/controller/verify_otp_controller.dart';
 import 'package:mkr_mart/features/auth/ui/screen/login_screen.dart';
+import 'package:mkr_mart/features/cart/ui/controller/cart_item_controller.dart';
 import 'package:mkr_mart/features/common/controller/auth_controller.dart';
 import 'package:mkr_mart/features/common/controller/category_list_controller.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
@@ -31,6 +32,7 @@ class ControllerBinder extends Bindings {
     Get.put(CategoryListController());
     Get.put(PopularProductController());
     Get.put(AddToCartController());
+    Get.put(CartItemController());
   }
 
   void _onUnAuthorized() {

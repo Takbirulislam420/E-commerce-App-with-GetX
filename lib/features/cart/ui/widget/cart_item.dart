@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mkr_mart/app/app_assets_path.dart';
+import 'package:get/get.dart';
 import 'package:mkr_mart/app/app_colors.dart';
+import 'package:mkr_mart/features/cart/data/model/cart_item_model.dart';
+import 'package:mkr_mart/features/cart/ui/controller/cart_item_controller.dart';
 import 'package:mkr_mart/features/products/ui/widgets/increment_decrement_button.dart';
 
 class CartItem extends StatelessWidget {
-  const CartItem({super.key});
+  const CartItem({super.key, required this.cartItemModel});
+  final CartItemModel cartItemModel;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,12 @@ class CartItem extends StatelessWidget {
             height: 100,
             width: 100,
             padding: EdgeInsets.all(8),
-            child: Image.asset(AppAssetsPath.dummyImage),
+            child: Image.network(
+              cartItemModel.productModel.photoUrl!.first,
+              errorBuilder: (_, _, _) {
+                return Center(child: Icon(Icons.error_outline));
+              },
+            ),
           ),
           Expanded(
             child: Padding(
@@ -31,7 +39,7 @@ class CartItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Nike ER3451 - new model of 2025",
+                              cartItemModel.productModel.title,
                               maxLines: 1,
 
                               style: TextStyle(
@@ -43,7 +51,7 @@ class CartItem extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "Size: Small, Color: Black",
+                              "Size: ${cartItemModel.size}, Color: ${cartItemModel.color}",
                               maxLines: 1,
                               style: TextStyle(
                                 fontSize: 12,
@@ -66,7 +74,7 @@ class CartItem extends StatelessWidget {
                     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '\$100 ',
+                        (cartItemModel.productModel.currentPrice).toString(),
                         style: TextStyle(
                           fontSize: 12,
                           color: AppColors.themeColors,
@@ -74,7 +82,14 @@ class CartItem extends StatelessWidget {
                         ),
                       ),
                       Spacer(),
-                      IncrementDecrementButton(onChange: (int value) {}),
+                      IncrementDecrementButton(
+                        onChange: (int value) {
+                          Get.find<CartItemController>().updateQuantity(
+                            cartItemModel.id,
+                            value,
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ],

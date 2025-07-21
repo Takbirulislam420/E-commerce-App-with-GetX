@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mkr_mart/app/app_colors.dart';
+import 'package:mkr_mart/features/cart/ui/controller/cart_item_controller.dart';
 import 'package:mkr_mart/features/cart/ui/widget/cart_item.dart';
 import 'package:mkr_mart/features/common/ui/controller/main_bottom_nav_controller.dart';
+import 'package:mkr_mart/features/common/ui/widgets/center_circular_progress_indicator.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -12,6 +14,15 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final CartItemController _cartItemController = Get.find<CartItemController>();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _cartItemController.getCartItem();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -29,24 +40,37 @@ class _CartScreenState extends State<CartScreen> {
             icon: Icon(Icons.arrow_back_ios_new),
           ),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: ListView.separated(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return CartItem();
-                  },
-                  separatorBuilder: (_, _) {
-                    return SizedBox(height: 3);
-                  },
+        body: GetBuilder(
+          init: _cartItemController,
+          builder: (controller) {
+            if (controller.inProgress) {
+              return CenterCircularProgressIndicator();
+            }
+            if (controller.errorMessage != null) {
+              return Center(child: Text(controller.errorMessage!));
+            }
+            return Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: ListView.separated(
+                      itemCount: controller.cartItemList.length,
+                      itemBuilder: (context, index) {
+                        return CartItem(
+                          cartItemModel: controller.cartItemList[index],
+                        );
+                      },
+                      separatorBuilder: (_, _) {
+                        return SizedBox(height: 3);
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            _buildAddCheckOutSection(),
-          ],
+                _buildAddCheckOutSection(),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -72,7 +96,7 @@ class _CartScreenState extends State<CartScreen> {
             children: [
               Text("Price", style: Theme.of(context).textTheme.bodyLarge),
               Text(
-                "\$1000",
+                (_cartItemController.totalPrice).toString(),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,

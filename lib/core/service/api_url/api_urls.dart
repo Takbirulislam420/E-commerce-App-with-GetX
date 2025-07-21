@@ -15,4 +15,5 @@ class ApiUrls {
   static String productDetailsByIdUrl(String productId) =>
       "$_baseUrl/products/id/$productId";
   static String addToCartUrl = "$_baseUrl/cart";
+  static String getCartUrl = "$_baseUrl/cart";
 }
